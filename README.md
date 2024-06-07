@@ -1,6 +1,6 @@
 # Stopwatch
 
-A new Flutter project.
+A Flutter project for job interview.
 
 ## Overview
 
@@ -20,5 +20,5 @@ This project is a starting point for a Flutter application. To get started, foll
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/danielgyorgy/stopwatch.git>
    cd stopwatch
