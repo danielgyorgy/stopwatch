@@ -20,5 +20,5 @@ This project is a starting point for a Flutter application. To get started, foll
 
 1. **Clone the repository**:
    ```bash
-   git clone <https://github.com/danielgyorgy/stopwatch.git>
+   git clone https://github.com/danielgyorgy/stopwatch.git
    cd stopwatch
