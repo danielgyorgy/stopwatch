@@ -6,7 +6,7 @@ import 'package:flutter/material.dart'; // A Flutter keretrendszer alapvető cso
 class AnalogClock extends StatelessWidget {
   final ValueNotifier<Duration> elapsedTime; // Az eltelt idő figyeléséhez szükséges változó
 
-  const AnalogClock({super.key, required this.elapsedTime});
+  const AnalogClock({Key? key, required this.elapsedTime}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +18,29 @@ class AnalogClock extends StatelessWidget {
         final minutes = seconds / 60; // Az eltelt idő percekben
         final hours = minutes / 60; // Az eltelt idő órákban
 
-        return SizedBox(
-          width: 200,
-          height: 200,
-          child: CustomPaint(
-            painter: ClockPainter(
-              hours: hours,
-              minutes: minutes,
-              seconds: seconds,
-            ),
-          ),
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            // Az óra widget méreteinek kiszámítása a képernyő méretei alapján
+            final size = constraints.biggest.shortestSide * 0.8;
+
+            return SizedBox(
+              width: size,
+              height: size,
+              child: CustomPaint(
+                painter: ClockPainter(
+                  hours: hours,
+                  minutes: minutes,
+                  seconds: seconds,
+                ),
+              ),
+            );
+          },
         );
       },
     );
   }
 }
+
 
 // Az óra festéséhez szükséges osztály definiálása
 class ClockPainter extends CustomPainter {
