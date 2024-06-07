@@ -1,8 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors
 
-import 'dart:async'; // Az aszinkron műveletekhez szükséges csomag importálása
-import 'package:flutter/material.dart'; // A Flutter keretrendszer alapvető csomagjának importálása
-import 'analog_clock.dart'; // Az analóg óra widget importálása
+import 'dart:async'; // Importing package required for asynchronous operations
+import 'package:flutter/material.dart'; // Importing the core Flutter framework package
+import 'analog_clock.dart'; // Importing the analog clock widget
 
 class StopwatchHome extends StatefulWidget {
   const StopwatchHome({Key? key});
@@ -11,83 +11,83 @@ class StopwatchHome extends StatefulWidget {
   _StopwatchHomeState createState() => _StopwatchHomeState();
 }
 
-// Az állapotot kezelő osztály létrehozása a stopperhez
+// Creating the state management class for the stopwatch
 class _StopwatchHomeState extends State<StopwatchHome> {
-   Stopwatch _stopwatch = Stopwatch(); // Stopper példányosítása
-   Timer _timer = Timer(const Duration(), () { }); // Időzítő a stopper frissítéséhez
+   Stopwatch _stopwatch = Stopwatch(); // Instantiating the stopwatch
+   Timer _timer = Timer(const Duration(), () { }); // Timer for updating the stopwatch
   final _elapsedTime =
-      ValueNotifier<Duration>(Duration.zero); // Az eltelt idő figyeléséhez
-  final List<Duration> _laps = []; // A köridők tárolása
-  bool _isRunning = false; // A stopper állapotának figyelése (fut-e vagy sem)
+      ValueNotifier<Duration>(Duration.zero); // Watching the elapsed time
+  final List<Duration> _laps = []; // Storing lap times
+  bool _isRunning = false; // Monitoring the stopwatch state (running or not)
   final TextStyle _bigTextStyle = const TextStyle(
-      fontSize: 48, fontWeight: FontWeight.bold); // Nagy méretű szöveg stílusa
+      fontSize: 48, fontWeight: FontWeight.bold); // Style for large text
   final TextStyle _buttonTextStyle = const TextStyle(
-      fontSize: 20, fontWeight: FontWeight.bold); // Gombok szövegének stílusa
+      fontSize: 20, fontWeight: FontWeight.bold); // Style for button text
   final TextStyle _lapTitleTextStyle =
-      const TextStyle(fontWeight: FontWeight.bold); // Köridő címének stílusa
+      const TextStyle(fontWeight: FontWeight.bold); // Style for lap title
 
   @override
   void initState() {
     super.initState();
-    _stopwatch = Stopwatch(); // Stopper inicializálása
+    _stopwatch = Stopwatch(); // Initializing the stopwatch
   }
 
-  // Stopper elindítása vagy megállítása
+  // Starting or pausing the stopwatch
   void _toggleStartPause() {
     if (_isRunning) {
-      _pause(); // Ha a stopper fut, akkor megállítjuk
+      _pause(); // If the stopwatch is running, pause it
     } else {
-      _start(); // Ha a stopper áll, akkor elindítjuk
+      _start(); // If the stopwatch is paused, start it
     }
   }
 
-  // Stopper indítása
+  // Starting the stopwatch
   void _start() {
-    _stopwatch.start(); // Stopper indítása
-    _isRunning = true; // Állapot beállítása, hogy a stopper fut
+    _stopwatch.start(); // Start the stopwatch
+    _isRunning = true; // Set state to running
     _timer = Timer.periodic(const Duration(milliseconds: 16), (timer) {
       _elapsedTime.value =
-          _stopwatch.elapsed; // Az eltelt idő frissítése 16 ms-onként
+          _stopwatch.elapsed; // Update elapsed time every 16 ms
     });
-    setState(() {}); // Az állapot frissítése a widget újrarajzolásához
+    setState(() {}); // Update state to redraw the widget
   }
 
-  // Stopper megállítása
+  // Pausing the stopwatch
   void _pause() {
-    _stopwatch.stop(); // Stopper megállítása
-    _isRunning = false; // Állapot beállítása, hogy a stopper áll
-    _timer.cancel(); // Időzítő leállítása
-    setState(() {}); // Az állapot frissítése a widget újrarajzolásához
+    _stopwatch.stop(); // Stop the stopwatch
+    _isRunning = false; // Set state to paused
+    _timer.cancel(); // Cancel the timer
+    setState(() {}); // Update state to redraw the widget
   }
 
-  // Stopper visszaállítása
+  // Resetting the stopwatch
   void _reset() {
-    _stopwatch.reset(); // Stopper visszaállítása
-    _stopwatch.stop(); // Stopper megállítása
+    _stopwatch.reset(); // Reset the stopwatch
+    _stopwatch.stop(); // Stop the stopwatch
 
-    _elapsedTime.value = Duration.zero; // Az eltelt idő nullázása
-    _isRunning = false; // Állapot beállítása, hogy a stopper áll
-    _timer.cancel(); // Időzítő leállítása
-    setState(() {}); // Az állapot frissítése a widget újrarajzolásához
+    _elapsedTime.value = Duration.zero; // Reset the elapsed time
+    _isRunning = false; // Set state to paused
+    _timer.cancel(); // Cancel the timer
+    setState(() {}); // Update state to redraw the widget
   }
 
-  // Köridő rögzítése
+  // Recording a lap time
   void _lap() {
     _laps.add(_stopwatch
-        .elapsed); // Az aktuális eltelt idő hozzáadása a köridők listájához
-    setState(() {}); // Az állapot frissítése a widget újrarajzolásához
+        .elapsed); // Add the current elapsed time to the lap times list
+    setState(() {}); // Update state to redraw the widget
   }
 
-  // Köridők törlése
+  // Clearing lap times
   void _clearLaps() {
-    _laps.clear(); // Köridők listájának törlése
-    setState(() {}); // Az állapot frissítése a widget újrarajzolásához
+    _laps.clear(); // Clear the lap times list
+    setState(() {}); // Update state to redraw the widget
   }
   
 
   @override
   void dispose() {
-    _timer.cancel(); // Időzítő leállítása
+    _timer.cancel(); // Cancel the timer
     
     super.dispose();
   }
@@ -97,7 +97,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
     return Scaffold(
       body: Container(
         height: MediaQuery.sizeOf(context)
-            .height, // A teljes képernyő magasságának beállítása
+            .height, // Setting height to full screen height
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -106,7 +106,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
               Colors.white,
               Colors.white,
               Colors.green
-            ], // Hátter színátmenet beállítása
+            ], // Setting background gradient
           ),
         ),
         child: SafeArea(
@@ -120,7 +120,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusDirectional.circular(
-                          10), // Kártya lekerekített sarkai
+                          10), // Rounded corners for the card
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -142,7 +142,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                                       .toString()
                                       .padLeft(2, '0');
                               return Text(
-                                '$minutes:$seconds.$milliseconds', // Az eltelt idő megjelenítése
+                                '$minutes:$seconds.$milliseconds', // Displaying the elapsed time
                                 style: _bigTextStyle,
                               );
                             },
@@ -150,7 +150,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                           const SizedBox(height: 20),
                           AnalogClock(
                               elapsedTime:
-                                  _elapsedTime), // Az analóg óra widget beillesztése
+                                  _elapsedTime), // Embedding the analog clock widget
                         ],
                       ),
                     ),
@@ -161,12 +161,12 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                     children: <Widget>[
                       ElevatedButton(
                         onPressed:
-                            _toggleStartPause, // Gomb megnyomásakor a stopper indítása vagy megállítása
+                            _toggleStartPause, // Start or pause the stopwatch on button press
                         style: ElevatedButton.styleFrom(
                           backgroundColor: _isRunning
                               ? Colors.red
                               : Colors
-                                  .green, // A gomb színének beállítása az állapottól függően
+                                  .green, // Setting button color based on state
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 15),
                           textStyle: _buttonTextStyle,
@@ -176,12 +176,12 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                         ),
                         child: Text(_isRunning
                             ? 'Pause'
-                            : 'Start'), // A gomb szövegének beállítása az állapottól függően
+                            : 'Start'), // Setting button text based on state
                       ),
                       ElevatedButton(
                         onPressed: _stopwatch.elapsed == Duration.zero
                             ? null
-                            : _reset, // Gomb inaktiválása, ha az eltelt idő nulla
+                            : _reset, // Disable button if elapsed time is zero
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           padding: const EdgeInsets.symmetric(
@@ -202,7 +202,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                       ElevatedButton(
                         onPressed: _stopwatch.elapsed == Duration.zero
                             ? null
-                            : _lap, // Gomb inaktiválása, ha az eltelt idő nulla
+                            : _lap, // Disable button if elapsed time is zero
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           padding: const EdgeInsets.symmetric(
@@ -217,7 +217,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                       ElevatedButton(
                         onPressed: _laps.isEmpty
                             ? null
-                            : _clearLaps, // Gomb inaktiválása, ha nincs köridő
+                            : _clearLaps, // Disable button if no lap times
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
                           padding: const EdgeInsets.symmetric(
@@ -234,12 +234,12 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                   const SizedBox(height: 20),
                   ListView.builder(
                     physics:
-                        const NeverScrollableScrollPhysics(), // A listview görgethetőségének letiltása
+                        const NeverScrollableScrollPhysics(), // Disable scrolling for the list view
                     shrinkWrap: true,
-                    itemCount: _laps.length, // A köridők számának megadása
+                    itemCount: _laps.length, // Number of lap times
                     itemBuilder: (context, index) {
                       final lap = _laps.reversed.toList()[
-                          index]; // Az egyes köridők visszafele történő megjelenítése
+                          index]; // Display lap times in reverse order
                       final minutes = lap.inMinutes
                           .remainder(60)
                           .toString()
@@ -255,15 +255,15 @@ class _StopwatchHomeState extends State<StopwatchHome> {
                       return Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadiusDirectional.circular(
-                              10), // Kártya lekerekített sarkai
+                              10), // Rounded corners for the card
                         ),
                         child: ListTile(
                           leading: const Icon(
-                              Icons.flag_circle), // Ikon a listaelem elején
+                              Icons.flag_circle), // Icon at the beginning of the list item
                           title: Text('Lap ${_laps.length - index}',
-                              style: _lapTitleTextStyle), // Köridő címe
+                              style: _lapTitleTextStyle), // Lap title
                           trailing: Text(
-                              '$minutes:$seconds.$milliseconds'), // Köridő megjelenítése
+                              '$minutes:$seconds.$milliseconds'), // Displaying the lap time
                         ),
                       );
                     },

@@ -1,10 +1,10 @@
-import 'dart:math'; // Matematikai műveletekhez szükséges csomag importálása
+import 'dart:math'; // Importing the package for mathematical operations
 
-import 'package:flutter/material.dart'; // A Flutter keretrendszer alapvető csomagjának importálása
+import 'package:flutter/material.dart'; // Importing the core Flutter framework package
 
-// Az analóg óra widget definiálása
+// Defining the analog clock widget
 class AnalogClock extends StatelessWidget {
-  final ValueNotifier<Duration> elapsedTime; // Az eltelt idő figyeléséhez szükséges változó
+  final ValueNotifier<Duration> elapsedTime; // Variable for tracking the elapsed time
 
   const AnalogClock({Key? key, required this.elapsedTime}) : super(key: key);
 
@@ -13,14 +13,14 @@ class AnalogClock extends StatelessWidget {
     return ValueListenableBuilder<Duration>(
       valueListenable: elapsedTime,
       builder: (context, value, child) {
-        final milliseconds = value.inMilliseconds; // Az eltelt idő milliszekundumban
-        final seconds = milliseconds / 1000; // Az eltelt idő másodpercben
-        final minutes = seconds / 60; // Az eltelt idő percekben
-        final hours = minutes / 60; // Az eltelt idő órákban
+        final milliseconds = value.inMilliseconds; // Elapsed time in milliseconds
+        final seconds = milliseconds / 1000; // Elapsed time in seconds
+        final minutes = seconds / 60; // Elapsed time in minutes
+        final hours = minutes / 60; // Elapsed time in hours
 
         return LayoutBuilder(
           builder: (context, constraints) {
-            // Az óra widget méreteinek kiszámítása a képernyő méretei alapján
+            // Calculating the size of the clock widget based on the screen dimensions
             final size = constraints.biggest.shortestSide * 0.8;
 
             return SizedBox(
@@ -41,8 +41,7 @@ class AnalogClock extends StatelessWidget {
   }
 }
 
-
-// Az óra festéséhez szükséges osztály definiálása
+// Defining the class for painting the clock
 class ClockPainter extends CustomPainter {
   final double hours;
   final double minutes;
@@ -52,11 +51,11 @@ class ClockPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2); // Az óra középpontjának kiszámítása
-    final radius = min(size.width / 2, size.height / 2); // Az óra sugarának meghatározása
+    final center = Offset(size.width / 2, size.height / 2); // Calculating the center of the clock
+    final radius = min(size.width / 2, size.height / 2); // Determining the radius of the clock
     final paint = Paint()..color = Colors.black;
 
-    // Óra háttér rajzolása színátmenettel
+    // Drawing the clock background with a gradient
     final gradient = RadialGradient(
       colors: [Colors.grey[800]!, Colors.black],
       stops: const [0.9, 1.0],
@@ -65,13 +64,13 @@ class ClockPainter extends CustomPainter {
     final gradientPaint = Paint()..shader = gradient.createShader(rect);
     canvas.drawCircle(center, radius, gradientPaint);
 
-    // Óra körének rajzolása
+    // Drawing the clock's circle
     paint.color = Colors.white;
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 4;
     canvas.drawCircle(center, radius, paint);
 
-    // Óra órajelzéseinek rajzolása
+    // Drawing the hour marks
     paint.strokeWidth = 2;
     for (int i = 0; i < 12; i++) {
       final angle = (pi / 6) * i;
@@ -80,7 +79,7 @@ class ClockPainter extends CustomPainter {
       canvas.drawLine(start, end, paint);
     }
 
-    // Óra percjelzéseinek rajzolása
+    // Drawing the minute marks
     paint.strokeWidth = 1;
     for (int i = 0; i < 60; i++) {
       if (i % 5 != 0) {
@@ -91,34 +90,34 @@ class ClockPainter extends CustomPainter {
       }
     }
 
-    // Óra mutatóinak rajzolása
-    // Óramutató
+    // Drawing the clock hands
+    // Hour hand
     paint.color = Colors.white;
     paint.strokeWidth = 6;
     final hourHandLength = radius * 0.5;
     final hourAngle = (pi / 6) * (hours % 12);
     _drawHand(canvas, center, hourHandLength, hourAngle, paint);
 
-    // Percmutató
+    // Minute hand
     paint.strokeWidth = 4;
     final minuteHandLength = radius * 0.7;
     final minuteAngle = (pi / 30) * (minutes % 60);
     _drawHand(canvas, center, minuteHandLength, minuteAngle, paint);
 
-    // Másodpercmutató
+    // Second hand
     paint.color = Colors.red;
     paint.strokeWidth = 2;
     final secondHandLength = radius * 0.9;
     final secondAngle = (pi / 30) * (seconds % 60);
     _drawHand(canvas, center, secondHandLength, secondAngle, paint);
 
-    // Középpont rajzolása
+    // Drawing the center point
     paint.color = Colors.white;
     paint.style = PaintingStyle.fill;
     canvas.drawCircle(center, 5, paint);
   }
 
-  // Segédfüggvény a mutatók rajzolásához
+  // Helper function for drawing the hands
   void _drawHand(Canvas canvas, Offset center, double length, double angle, Paint paint) {
     final end = center + Offset(length * cos(angle - pi / 2), length * sin(angle - pi / 2));
     canvas.drawLine(center, end, paint);
@@ -126,6 +125,6 @@ class ClockPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return true; // Mindig újra kell festeni, ha változás történik
+    return true; // Always repaint when changes occur
   }
 }
