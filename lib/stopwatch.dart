@@ -11,8 +11,8 @@ class StopwatchHome extends StatefulWidget {
 
 // Az állapotot kezelő osztály létrehozása a stopperhez
 class _StopwatchHomeState extends State<StopwatchHome> {
-  late Stopwatch _stopwatch; // Stopper példányosítása
-  late Timer _timer; // Időzítő a stopper frissítéséhez
+   Stopwatch _stopwatch = Stopwatch(); // Stopper példányosítása
+   Timer _timer = Timer(const Duration(), () { }); // Időzítő a stopper frissítéséhez
   final _elapsedTime =
       ValueNotifier<Duration>(Duration.zero); // Az eltelt idő figyeléséhez
   final List<Duration> _laps = []; // A köridők tárolása
@@ -85,6 +85,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
   @override
   void dispose() {
     _timer.cancel(); // Időzítő leállítása
+    
     super.dispose();
   }
 
