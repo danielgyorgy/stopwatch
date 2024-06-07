@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors
+
 import 'dart:async'; // Az aszinkron műveletekhez szükséges csomag importálása
 import 'package:flutter/material.dart'; // A Flutter keretrendszer alapvető csomagjának importálása
 import 'analog_clock.dart'; // Az analóg óra widget importálása
@@ -81,6 +83,7 @@ class _StopwatchHomeState extends State<StopwatchHome> {
     _laps.clear(); // Köridők listájának törlése
     setState(() {}); // Az állapot frissítése a widget újrarajzolásához
   }
+  
 
   @override
   void dispose() {
@@ -273,4 +276,5 @@ class _StopwatchHomeState extends State<StopwatchHome> {
       ),
     );
   }
+
 }
